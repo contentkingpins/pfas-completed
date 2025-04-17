@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Header from './components/Layout/Header';
+import Footer from './components/Layout/Footer';
+import HeroSection from './components/Sections/HeroSection';
+import WhatIsPFAS from './components/Sections/WhatIsPFAS';
+import AreYouAtRisk from './components/Sections/AreYouAtRisk';
+import ClientWins from './components/Sections/ClientWins';
+import TrustedByThousands from './components/Sections/TrustedByThousands';
+import NextSteps from './components/Sections/NextSteps';
+import StickyCallButton from './components/Layout/StickyCallButton';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App font-sans bg-white">
+      <Header />
+      <main className="pb-16 md:pb-0">
+        <HeroSection />
+        <WhatIsPFAS />
+        <AreYouAtRisk />
+        <ClientWins />
+        <TrustedByThousands />
+        <NextSteps />
+      </main>
+      <Footer />
+      <StickyCallButton />
     </div>
   );
 }
