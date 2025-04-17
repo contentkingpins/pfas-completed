@@ -49,40 +49,50 @@ const AreYouAtRisk: React.FC = () => {
           </p>
         </div>
         
-        <div className="max-w-md mx-auto mb-12">
-          <Card elevated>
-            <h3 className="text-xl font-bold text-trustBlue mb-4">Check Your Location</h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
-                  ZIP Code
-                </label>
-                <input
-                  type="text"
-                  id="zipCode"
-                  placeholder="Enter your 5-digit ZIP code"
-                  value={zipCode}
-                  onChange={handleZipChange}
-                  className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
-                    error ? 'border-warningRed' : 'border-gray-300'
-                  }`}
-                  maxLength={5}
-                  disabled={isChecking}
-                />
-                {error && (
-                  <p className="mt-1 text-sm text-warningRed">{error}</p>
-                )}
-              </div>
-              <Button 
-                type="submit" 
-                variant="primary" 
-                className="w-full"
-                disabled={isChecking || zipCode.length !== 5}
-              >
-                {isChecking ? 'Checking...' : 'Check Location'}
-              </Button>
-            </form>
-          </Card>
+        <div className="grid md:grid-cols-2 gap-8 mb-12 items-center">
+          <div className="rounded-lg overflow-hidden shadow-lg">
+            <img 
+              src="/images/family.jpg" 
+              alt="Family concerned about PFAS contamination" 
+              className="w-full h-auto"
+            />
+          </div>
+          
+          <div>
+            <Card elevated>
+              <h3 className="text-xl font-bold text-trustBlue mb-4">Check Your Location</h3>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
+                    ZIP Code
+                  </label>
+                  <input
+                    type="text"
+                    id="zipCode"
+                    placeholder="Enter your 5-digit ZIP code"
+                    value={zipCode}
+                    onChange={handleZipChange}
+                    className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
+                      error ? 'border-warningRed' : 'border-gray-300'
+                    }`}
+                    maxLength={5}
+                    disabled={isChecking}
+                  />
+                  {error && (
+                    <p className="mt-1 text-sm text-warningRed">{error}</p>
+                  )}
+                </div>
+                <Button 
+                  type="submit" 
+                  variant="primary" 
+                  className="w-full"
+                  disabled={isChecking || zipCode.length !== 5}
+                >
+                  {isChecking ? 'Checking...' : 'Check Location'}
+                </Button>
+              </form>
+            </Card>
+          </div>
         </div>
         
         {/* Placeholder for future map implementation */}

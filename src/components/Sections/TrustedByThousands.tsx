@@ -7,6 +7,7 @@ interface Testimonial {
   name: string;
   location: string;
   awarded?: string;
+  imagePath: string;
 }
 
 const testimonials: Testimonial[] = [
@@ -15,20 +16,23 @@ const testimonials: Testimonial[] = [
     quote: "After discovering PFAS in our water supply, I was concerned for my family's health. The legal team helped us get compensation and peace of mind.",
     name: "Michael D.",
     location: "Ohio",
-    awarded: "$375,000"
+    awarded: "$375,000",
+    imagePath: "/images/testimonial1.jpg"
   },
   {
     id: 2,
     quote: "I was diagnosed with kidney cancer after years of drinking contaminated water. This team fought tirelessly for me and won.",
     name: "Sarah L.",
     location: "Michigan",
-    awarded: "$680,000"
+    awarded: "$680,000",
+    imagePath: "/images/testimonial2.jpg"
   },
   {
     id: 3,
     quote: "The process was straightforward and the attorneys were compassionate. They understood what our community was going through.",
     name: "David M.",
-    location: "Pennsylvania"
+    location: "Pennsylvania",
+    imagePath: "/images/testimonial1.jpg" // Reusing image as placeholder
   }
 ];
 
@@ -48,6 +52,19 @@ const TrustedByThousands: React.FC = () => {
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {testimonials.map((testimonial) => (
             <Card key={testimonial.id} className="flex flex-col h-full">
+              <div className="mb-4 flex items-center">
+                <div className="w-16 h-16 rounded-full overflow-hidden mr-4 bg-gray-200">
+                  <img 
+                    src={testimonial.imagePath} 
+                    alt={`${testimonial.name} from ${testimonial.location}`} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <p className="font-semibold text-trustBlue">{testimonial.name}</p>
+                  <p className="text-sm text-gray-500">{testimonial.location}</p>
+                </div>
+              </div>
               <div className="flex-grow">
                 <div className="text-safetyGreen mb-4">
                   <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -57,13 +74,10 @@ const TrustedByThousands: React.FC = () => {
                 </div>
                 <p className="text-gray-600 mb-4 italic">"{testimonial.quote}"</p>
               </div>
-              <div>
-                <p className="font-semibold text-trustBlue">{testimonial.name}</p>
-                <p className="text-sm text-gray-500">{testimonial.location}</p>
-                {testimonial.awarded && (
-                  <p className="text-safetyGreen font-medium mt-2">Awarded: {testimonial.awarded}</p>
-                )}
-              </div>
+              
+              {testimonial.awarded && (
+                <p className="text-safetyGreen font-medium mt-2 pt-2 border-t border-gray-200">Awarded: {testimonial.awarded}</p>
+              )}
             </Card>
           ))}
         </div>

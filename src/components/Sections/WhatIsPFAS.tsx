@@ -14,6 +14,18 @@ const WhatIsPFAS: React.FC = () => {
           </p>
         </div>
 
+        {/* Image section */}
+        <div className="mb-16 max-w-4xl mx-auto overflow-hidden rounded-lg shadow-lg">
+          <img 
+            src="/images/contaminated-water.jpg" 
+            alt="Contaminated water with PFAS chemicals" 
+            className="w-full h-auto object-cover"
+          />
+          <div className="bg-trustBlue text-white p-4">
+            <p className="font-medium">PFAS contaminated water can look clear but contain dangerous levels of chemicals</p>
+          </div>
+        </div>
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Card>
             <div className="flex flex-col h-full">

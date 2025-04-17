@@ -14,6 +14,11 @@ const Header: React.FC = () => {
       <div className="container py-4 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center">
+          <img 
+            src="/images/logo.png" 
+            alt="PFAS Claim Center Logo" 
+            className="h-10 w-auto mr-2"
+          />
           <span className="text-2xl font-bold text-trustBlue">PFAS Claim Center</span>
         </Link>
 
