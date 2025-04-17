@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-// import InteractiveMap from '../Map/InteractiveMap';
-// import useGeolocation from '../../hooks/useGeolocation';
-// import { searchPlaceByPosition } from '../../services/awsLocationService';
 import hotZoneZipCodes from '../../assets/data/hotzones.json';
 import Button from '../UI/Button';
 
@@ -110,9 +107,9 @@ const AreYouAtRisk = () => {
            {checkError && <p className="text-warning-red mt-2">{checkError}</p>}
         </form>
 
-        {/* Interactive Map section removed */}
+        {/* Remove map reference and replace with informational text */}
         <div className="text-center text-gray-500 mt-8">
-            (Map feature temporarily unavailable)
+            <p>Check your zip code to see if you are in a PFAS affected area.</p>
         </div>
 
       </div>
