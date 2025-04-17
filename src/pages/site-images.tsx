@@ -8,16 +8,16 @@ const SITE_IMAGES = [
   {
     id: 'hero',
     name: 'Hero Background',
-    description: 'Main hero image at the top of the page',
-    path: '/images/hero-background.jpg',
-    dimensions: '1920x1080px recommended'
+    description: 'Background image for the hero section',
+    path: '/images/water-unsafe-drink.jpg',
+    instructions: 'Replace the file at public/images/water-unsafe-drink.jpg',
   },
   {
     id: 'dirty-water',
     name: 'Contaminated Water',
     description: 'Image showing contaminated water for the "What is PFAS" section',
-    path: '/images/contaminated-water.jpg',
-    dimensions: '800x600px recommended'
+    path: '/images/3-dirty-water-glass.jpg',
+    instructions: 'Replace the file at public/images/3-dirty-water-glass.jpg',
   },
   {
     id: 'family',
