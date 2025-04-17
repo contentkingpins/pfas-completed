@@ -2,11 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: 'standalone',
-  experimental: {
-    // This is experimental but can be helpful for deployment issues
-    esmExternals: 'loose'
-  }
+  output: 'export',
+  distDir: 'build',
+  images: {
+    unoptimized: true
+  },
+  trailingSlash: true
 }
 
 module.exports = nextConfig 

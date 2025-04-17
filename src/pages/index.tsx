@@ -11,6 +11,7 @@ import FAQ from '../components/Sections/FAQ';
 import FinalCTA from '../components/Sections/FinalCTA';
 import StickyCallButton from '../components/Layout/StickyCallButton';
 
+// Simple homepage with all sections
 export default function Home() {
   return (
     <div className="font-sans bg-white">
