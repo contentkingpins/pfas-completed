@@ -110,5 +110,4 @@ This project is proprietary. All rights reserved.
 ## Contact
 
 For questions or support, please contact:
-- Email: info@pfasclaimcenter.com
 - Phone: 833-998-6147 

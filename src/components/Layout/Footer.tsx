@@ -16,7 +16,6 @@ const Footer: React.FC = () => {
             </p>
             <div className="flex flex-col space-y-2">
               <a href="tel:+18339986147" className="hover:text-safetyGreen">Call: 833-998-6147</a>
-              <a href="mailto:info@pfasclaimcenter.com" className="hover:text-safetyGreen">Email: info@pfasclaimcenter.com</a>
             </div>
           </div>
           
