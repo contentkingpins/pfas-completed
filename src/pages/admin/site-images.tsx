@@ -3,10 +3,10 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import Header from '@/components/Layout/Header';
-import Footer from '@/components/Layout/Footer';
-import Card from '@/components/UI/Card';
-import Button from '@/components/UI/Button';
+import Header from '../../components/Layout/Header';
+import Footer from '../../components/Layout/Footer';
+import Card from '../../components/UI/Card';
+import Button from '../../components/UI/Button';
 
 // Import the site images configuration
 const SITE_IMAGES = [
@@ -14,7 +14,7 @@ const SITE_IMAGES = [
     id: 'hero',
     name: 'Hero Background',
     description: 'Large background image for the hero section',
-    path: '/images/water-unsafe-drink.jpg',
+    path: '/images/family concerned about pfas.jpg',
     recommendedDimensions: '1920x1080 pixels',
   },
   {

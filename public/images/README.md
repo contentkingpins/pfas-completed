@@ -6,7 +6,7 @@ This directory contains all the main images used on the PFAS Claim Center websit
 
 The following images should be placed in this directory:
 
-1. **hero-background.jpg** - Main hero image (1920x1080px recommended)
+1. **family concerned about pfas.jpg** - Main hero image (1920x1080px recommended)
 2. **contaminated-water.jpg** - Image for "What is PFAS" section (800x600px recommended)
 3. **family.jpg** - Image for "Who is at risk" section (800x600px recommended)
 4. **testimonial1.jpg** - First testimonial person (400x400px square recommended)
