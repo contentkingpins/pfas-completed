@@ -33,13 +33,6 @@ export default function Home() {
         <TrustedByThousands />
         <FAQ />
         <FinalCTA />
-        
-        {/* Admin link - could be hidden or protected in production */}
-        <div className="text-center py-4 text-sm">
-          <Link href="/site-images" className="text-gray-400 hover:text-trustBlue">
-            Manage Site Images
-          </Link>
-        </div>
       </main>
       
       <Footer />
