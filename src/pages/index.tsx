@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Header from '../components/Layout/Header';
@@ -14,6 +14,27 @@ import StickyCallButton from '../components/Layout/StickyCallButton';
 
 // Simple homepage with all sections
 export default function Home() {
+  // Ensure page starts at the top
+  useEffect(() => {
+    // Force scroll to top on initial load
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+      
+      // Prevent any automatic scrolling
+      const preventAutoScroll = () => {
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 0);
+      };
+      
+      window.addEventListener('load', preventAutoScroll);
+      
+      return () => {
+        window.removeEventListener('load', preventAutoScroll);
+      };
+    }
+  }, []);
+  
   return (
     <div className="font-sans bg-white">
       <Head>

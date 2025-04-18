@@ -1,9 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from '../UI/Button';
 import Card from '../UI/Card';
 
 const AreYouAtRisk: React.FC = () => {
   const [scrolledPastCTA, setScrolledPastCTA] = useState(false);
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const mapRef = useRef<HTMLIFrameElement>(null);
+
+  // Prevent auto scrolling to map on page load
+  useEffect(() => {
+    // Ensure window starts at the top of the page
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+    
+    // Prevent scrolling when hash links are clicked
+    const preventHashScroll = (event: HashChangeEvent) => {
+      if (event.newURL.includes('#who-is-at-risk')) {
+        window.scrollTo(0, 0);
+      }
+    };
+    
+    window.addEventListener('hashchange', preventHashScroll);
+    
+    return () => {
+      window.removeEventListener('hashchange', preventHashScroll);
+    };
+  }, []);
 
   // Scroll detection effect
   useEffect(() => {
@@ -33,6 +56,13 @@ const AreYouAtRisk: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // Handle map load - prevent auto focus when loaded
+  const handleMapLoad = () => {
+    setMapLoaded(true);
+    // Ensure focus stays on the page content
+    document.body.focus();
+  };
 
   return (
     <section id="who-is-at-risk" className="py-16 bg-lightGray">
@@ -98,10 +128,13 @@ const AreYouAtRisk: React.FC = () => {
           <h3 className="text-xl font-bold text-trustBlue mb-4">PFAS Contamination Preview Map</h3>
           <div className="bg-lightGray rounded-md mb-4 overflow-hidden">
             <iframe 
+              ref={mapRef}
               src="https://www.ewg.org/interactive-maps/2021_suspected_industrial_discharges_of_pfas/map/" 
               title="EWG PFAS Contamination Map" 
               className="w-full h-96 border-0"
               loading="lazy"
+              onLoad={handleMapLoad}
+              tabIndex={-1} // Prevent automatic focus
             ></iframe>
           </div>
           <p className="text-gray-600">
