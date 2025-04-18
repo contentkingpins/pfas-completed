@@ -19,18 +19,25 @@
 @layer components {
   .btn {
     @apply px-6 py-3 font-medium rounded-lg transition-all duration-200 inline-block text-center;
+    @apply shadow-md hover:shadow-lg active:shadow-sm;
+    @apply transform hover:-translate-y-1 active:translate-y-0;
+    @apply hover:scale-[1.02] active:scale-[0.98];
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
   }
   
   .btn-primary {
-    @apply bg-trustBlue text-white hover:bg-trustBlue-dark;
+    @apply bg-trustBlue text-white hover:bg-trustBlue-dark border border-trustBlue-dark;
+    @apply focus:ring-trustBlue;
   }
   
   .btn-secondary {
-    @apply bg-safetyGreen text-trustBlue hover:bg-safetyGreen-light;
+    @apply bg-safetyGreen text-trustBlue hover:bg-safetyGreen-light border border-safetyGreen;
+    @apply focus:ring-safetyGreen;
   }
 
   .btn-warning {
-    @apply bg-warningRed text-white hover:opacity-90;
+    @apply bg-warningRed text-white hover:opacity-90 border border-red-700;
+    @apply focus:ring-warningRed;
   }
 
   .container {

@@ -39,7 +39,7 @@ const Button: React.FC<ButtonProps> = ({
   if (href) {
     return (
       <Link href={href} className={baseClasses}>
-        {children}
+        <span className="flex items-center justify-center">{children}</span>
       </Link>
     );
   }
@@ -52,7 +52,7 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
     >
-      {children}
+      <span className="flex items-center justify-center">{children}</span>
     </button>
   );
 };
