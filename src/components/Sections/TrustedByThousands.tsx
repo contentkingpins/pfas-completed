@@ -66,12 +66,6 @@ const TrustedByThousands: React.FC = () => {
                 </div>
               </div>
               <div className="flex-grow">
-                <div className="text-safetyGreen mb-4">
-                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6.625 0c-1.563.117-2.954.45-4.172 1.32-1.172.826-1.446 1.504-1.446 3.282V7.5h5.587c1.28 0 2.406.855 2.406 2.008v8c0 1.38-1.113 2.492-2.493 2.492h-.905a3.121 3.121 0 01-3.12-3.094V10.5c0-2.578-2.118-4.695-4.695-4.695H0V0h6.625z" />
-                    <path d="M16.625 0c-1.563.117-2.954.45-4.172 1.32-1.172.826-1.446 1.504-1.446 3.282V7.5h5.587c1.28 0 2.4.855 2.4 2.008v8c0 1.38-1.113 2.492-2.492 2.492h-.906a3.121 3.121 0 01-3.119-3.094V10.5c0-2.578-2.118-4.695-4.695-4.695H10V0h6.625z" />
-                  </svg>
-                </div>
                 <p className="text-gray-600 mb-4 italic">"{testimonial.quote}"</p>
               </div>
               
