@@ -7,7 +7,7 @@ const HeroSection: React.FC = () => {
     <section 
       className="py-12 md:py-20 bg-gradient-to-br from-lightGray to-white relative"
       style={{
-        backgroundImage: "url('/images/family concerned about pfas.jpg')",
+        backgroundImage: "url('/images/3-dirty-water-glass.jpg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}

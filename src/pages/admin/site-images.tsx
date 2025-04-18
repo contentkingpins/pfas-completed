@@ -14,7 +14,7 @@ const SITE_IMAGES = [
     id: 'hero',
     name: 'Hero Background',
     description: 'Large background image for the hero section',
-    path: '/images/family concerned about pfas.jpg',
+    path: '/images/3-dirty-water-glass.jpg',
     recommendedDimensions: '1920x1080 pixels',
   },
   {

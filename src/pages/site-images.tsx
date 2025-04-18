@@ -9,8 +9,8 @@ const SITE_IMAGES = [
     id: 'hero',
     name: 'Hero Background',
     description: 'Background image for the hero section',
-    path: '/images/family concerned about pfas.jpg',
-    instructions: 'Replace the file at public/images/family concerned about pfas.jpg',
+    path: '/images/3-dirty-water-glass.jpg',
+    instructions: 'Replace the file at public/images/3-dirty-water-glass.jpg',
   },
   {
     id: 'dirty-water',
