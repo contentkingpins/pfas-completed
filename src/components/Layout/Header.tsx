@@ -29,8 +29,8 @@ const Header: React.FC = () => {
           <Link href="#faq" className="text-gray-700 hover:text-trustBlue">
             FAQ
           </Link>
-          <Button href="tel:+18005551234" variant="primary" size="small">
-            Call Now: 1-800-555-1234
+          <Button href="tel:+18339986147" variant="primary" size="small">
+            Call Now: 833-998-6147
           </Button>
         </nav>
 
@@ -88,8 +88,8 @@ const Header: React.FC = () => {
             >
               FAQ
             </Link>
-            <Button href="tel:+18005551234" variant="primary" className="w-full">
-              Call Now: 1-800-555-1234
+            <Button href="tel:+18339986147" variant="primary" className="w-full">
+              Call Now: 833-998-6147
             </Button>
           </nav>
         </div>

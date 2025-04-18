@@ -47,7 +47,7 @@ const AreYouAtRisk: React.FC = () => {
               </div>
               <div className="flex flex-col space-y-3">
                 <Button 
-                  href="tel:+18005551234" 
+                  href="tel:+18339986147" 
                   variant="primary" 
                   className="w-full text-center"
                 >
@@ -82,7 +82,7 @@ const AreYouAtRisk: React.FC = () => {
                   Source: Environmental Working Group Study identifying over 2,800 contamination sites
                 </p>
                 <Button 
-                  href="tel:+18005551234" 
+                  href="tel:+18339986147" 
                   variant="warning" 
                   size="large"
                 >
@@ -120,8 +120,8 @@ const AreYouAtRisk: React.FC = () => {
             </div>
           </div>
           
-          <Button href="tel:+18005551234" variant="primary" size="large" className="mt-4">
-            Call Now: 1-800-555-1234
+          <Button href="tel:+18339986147" variant="primary" size="large" className="mt-4">
+            Call Now: 833-998-6147
           </Button>
         </div>
       </div>

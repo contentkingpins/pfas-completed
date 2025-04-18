@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
               We fight for those affected by PFAS contamination. Get the compensation you deserve.
             </p>
             <div className="flex flex-col space-y-2">
-              <a href="tel:+18005551234" className="hover:text-safetyGreen">Call: 1-800-555-1234</a>
+              <a href="tel:+18339986147" className="hover:text-safetyGreen">Call: 833-998-6147</a>
               <a href="mailto:info@pfasclaimcenter.com" className="hover:text-safetyGreen">Email: info@pfasclaimcenter.com</a>
             </div>
           </div>

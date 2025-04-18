@@ -25,7 +25,7 @@ const HeroSection: React.FC = () => {
               Billions have already been awarded to victims. You could be next.
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
-              <Button href="tel:+18005551234" variant="warning" size="large">
+              <Button href="tel:+18339986147" variant="warning" size="large">
                 Call Now
               </Button>
               <Button 

@@ -104,7 +104,7 @@ const FAQ: React.FC = () => {
             Have other questions? Call us for a free consultation:
           </p>
           <p className="text-xl font-bold text-trustBlue mt-2">
-            1-800-555-1234
+            833-998-6147
           </p>
         </div>
       </div>

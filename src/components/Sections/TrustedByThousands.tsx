@@ -32,7 +32,7 @@ const testimonials: Testimonial[] = [
     quote: "The process was straightforward and the attorneys were compassionate. They understood what our community was going through.",
     name: "David M.",
     location: "Pennsylvania",
-    imagePath: "/images/testimonial1.jpg" // Reusing image as placeholder
+    imagePath: "/images/testimonial3.jpg"
   }
 ];
 

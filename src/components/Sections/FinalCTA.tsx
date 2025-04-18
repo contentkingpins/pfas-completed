@@ -15,12 +15,12 @@ const FinalCTA: React.FC = () => {
         
         <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
           <Button 
-            href="tel:+18005551234" 
+            href="tel:+18339986147" 
             variant="warning"
             size="large"
             className="min-w-[200px]"
           >
-            Call Now: 1-800-555-1234
+            Call Now: 833-998-6147
           </Button>
           
           <Button 
