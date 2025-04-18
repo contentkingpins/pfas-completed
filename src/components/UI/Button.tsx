@@ -13,6 +13,7 @@ interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
   className?: string;
   disabled?: boolean;
+  id?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -24,6 +25,7 @@ const Button: React.FC<ButtonProps> = ({
   type = 'button',
   className = '',
   disabled = false,
+  id,
 }) => {
   // Determine size class
   const sizeClass = {
@@ -38,7 +40,7 @@ const Button: React.FC<ButtonProps> = ({
   // If href is provided, render as link
   if (href) {
     return (
-      <Link href={href} className={baseClasses}>
+      <Link href={href} className={baseClasses} id={id}>
         <span className="flex items-center justify-center">{children}</span>
       </Link>
     );
@@ -51,6 +53,7 @@ const Button: React.FC<ButtonProps> = ({
       className={baseClasses}
       onClick={onClick}
       disabled={disabled}
+      id={id}
     >
       <span className="flex items-center justify-center">{children}</span>
     </button>

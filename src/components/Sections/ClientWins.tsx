@@ -64,8 +64,8 @@ const ClientWins: React.FC = () => {
           {caseResults.map((result) => (
             <Card key={result.id} className="transform transition-transform hover:scale-105">
               <div className="flex items-start space-x-4">
-                <div className="bg-trustBlue text-white p-3 rounded-lg text-center min-w-[80px]">
-                  <span className="block text-2xl font-bold">{result.amount}</span>
+                <div className="bg-trustBlue text-white p-3 rounded-lg text-center min-w-[100px] flex items-center justify-center">
+                  <span className="block text-xl md:text-2xl font-bold whitespace-nowrap">{result.amount}</span>
                 </div>
                 <div>
                   <h3 className="font-bold text-trustBlue text-lg">{result.description}</h3>

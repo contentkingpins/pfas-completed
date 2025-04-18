@@ -1,8 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../UI/Button';
 import Card from '../UI/Card';
 
 const AreYouAtRisk: React.FC = () => {
+  const [scrolledPastCTA, setScrolledPastCTA] = useState(false);
+
+  // Scroll detection effect
+  useEffect(() => {
+    const handleScroll = () => {
+      // Get the position of the Call Now button in the Card
+      const callButtonElement = document.querySelector('#area-check-cta');
+      
+      if (callButtonElement) {
+        const callButtonPosition = callButtonElement.getBoundingClientRect().bottom;
+        const windowHeight = window.innerHeight;
+        
+        // If we've scrolled past the CTA button (it's above the viewport)
+        if (callButtonPosition < 0) {
+          setScrolledPastCTA(true);
+        } else {
+          setScrolledPastCTA(false);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    
+    // Call once on component mount to set initial state
+    handleScroll();
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <section id="who-is-at-risk" className="py-16 bg-lightGray">
       <div className="container mx-auto">
@@ -15,15 +46,7 @@ const AreYouAtRisk: React.FC = () => {
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-8 mb-12 items-center">
-          <div className="rounded-lg overflow-hidden shadow-lg">
-            <img 
-              src="/images/family.jpg" 
-              alt="Family concerned about PFAS contamination" 
-              className="w-full h-auto"
-            />
-          </div>
-          
+        <div className="grid md:grid-cols-1 gap-8 mb-12 items-center">
           <div>
             <Card elevated>
               <h3 className="text-xl font-bold text-trustBlue mb-4">Find Out If You're Affected</h3>
@@ -45,6 +68,7 @@ const AreYouAtRisk: React.FC = () => {
               </div>
               <div className="flex flex-col space-y-3">
                 <Button 
+                  id="area-check-cta"
                   href="tel:+18339986147" 
                   variant="primary" 
                   className="w-full text-center"
@@ -52,53 +76,50 @@ const AreYouAtRisk: React.FC = () => {
                   Call Now For a Free Area Check
                 </Button>
               </div>
+              
+              {/* EWG Map Link - only visible after scrolling past CTA or after hover timeout */}
+              {scrolledPastCTA && (
+                <p className="text-sm text-gray-600 mt-4 animate-fadeIn">
+                  According to the Environmental Working Group (EWG), there are over 2,800 suspected industrial discharges of PFAS across the U.S. 
+                  <a href="https://www.ewg.org/interactive-maps/2021_suspected_industrial_discharges_of_pfas/map/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-blue-600 underline hover:text-blue-800 ml-1">
+                    View the official EWG interactive map here.
+                  </a>
+                </p>
+              )}
             </Card>
           </div>
         </div>
         
-        {/* Map Section - Visible by Default */}
+        {/* EWG Interactive Map Integration */}
         <div className="bg-white rounded-lg p-8 text-center shadow-md mb-10">
           <h3 className="text-xl font-bold text-trustBlue mb-4">PFAS Contamination Preview Map</h3>
-          <div className="relative">
-            <div 
-              className="w-full h-96 bg-trustBlue bg-opacity-10 rounded-lg flex items-center justify-center overflow-hidden"
-              style={{
-                backgroundImage: "url('/images/3-dirty-water-glass.jpg')",
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                filter: 'blur(2px) grayscale(30%)'
-              }}
-            >
-              {/* Map dots (representing contamination sites) */}
-              <div className="absolute inset-0 flex flex-wrap justify-around items-center">
-                {[...Array(24)].map((_, i) => (
-                  <div 
-                    key={i} 
-                    className="w-3 h-3 bg-warningRed rounded-full m-4 animate-pulse"
-                    style={{
-                      opacity: Math.random() * 0.5 + 0.5,
-                      transform: `scale(${Math.random() * 0.5 + 0.8})`
-                    }}
-                  ></div>
-                ))}
-              </div>
-            </div>
-            <div className="absolute inset-0 bg-trustBlue bg-opacity-60 flex flex-col items-center justify-center p-6 rounded-lg">
-              <p className="text-white text-lg mb-4">
-                This is just a preview. Our team has access to the complete database of affected areas.
-              </p>
-              <p className="text-white text-md mb-6">
-                Source: Environmental Working Group Study identifying over 2,800 contamination sites
-              </p>
-              <Button 
-                href="tel:+18339986147" 
-                variant="warning" 
-                size="large"
-              >
-                Call Now For Your Free Area Check
-              </Button>
-            </div>
+          <div className="bg-lightGray rounded-md mb-4 overflow-hidden">
+            <iframe 
+              src="https://www.ewg.org/interactive-maps/2021_suspected_industrial_discharges_of_pfas/map/" 
+              title="EWG PFAS Contamination Map" 
+              className="w-full h-96 border-0"
+              loading="lazy"
+            ></iframe>
           </div>
+          <p className="text-gray-600">
+            Data provided by the Environmental Working Group. If you discover you're in an affected area, 
+            call our hotline for a free consultation to discuss your legal options.
+          </p>
+          <p className="text-sm text-gray-600 mt-4">
+            According to the Environmental Working Group (EWG), there are over 2,800 suspected industrial discharges of PFAS across the U.S. 
+            <a href="https://www.ewg.org/interactive-maps/2021_suspected_industrial_discharges_of_pfas/map/" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               className="text-trustBlue underline hover:text-trustBlue-dark ml-1">
+               View the official EWG interactive map for more details.
+            </a>
+          </p>
+          <Button href="tel:+18339986147" variant="primary" className="mt-4">
+            Call Now For Your Free Area Check
+          </Button>
         </div>
         
         {/* Expert Team Section */}

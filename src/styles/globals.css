@@ -14,6 +14,15 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold text-trustBlue;
   }
+  
+  /* Hide the family concerned about PFAS image */
+  img[src*="family-concerned-about-pfas"],
+  img[src*="family concerned about pfas"],
+  img[alt*="family concerned about pfas"],
+  figure:has(figcaption:contains('Family concerned about PFAS')),
+  .family-concern-placeholder {
+    display: none !important;
+  }
 }
 
 @layer components {

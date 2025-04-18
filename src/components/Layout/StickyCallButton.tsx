@@ -1,9 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from '../UI/Button';
 
 const StickyCallButton: React.FC = () => {
+  const [showTooltip, setShowTooltip] = useState(false);
+  const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseEnter = () => {
+    hoverTimerRef.current = setTimeout(() => {
+      setShowTooltip(true);
+    }, 6000); // 6 seconds
+  };
+
+  const handleMouseLeave = () => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+    setShowTooltip(false);
+  };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className="fixed bottom-4 right-4 z-50 md:hidden">
+    <div 
+      className="fixed bottom-4 right-4 z-50 md:hidden"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      ref={buttonRef}
+    >
       <Button 
         href="tel:+18339986147" 
         variant="warning"
@@ -17,6 +49,22 @@ const StickyCallButton: React.FC = () => {
           Call Now
         </div>
       </Button>
+
+      {/* Tooltip that appears after 6 seconds of hovering */}
+      {showTooltip && (
+        <div className="absolute bottom-16 right-0 bg-white p-4 rounded-lg shadow-lg w-64 text-sm border border-gray-200">
+          <p className="text-gray-600 mb-2">
+            Want to check if your area is affected first?
+          </p>
+          <a 
+            href="#who-is-at-risk" 
+            className="text-trustBlue font-medium hover:underline"
+            onClick={() => setShowTooltip(false)}
+          >
+            View the PFAS contamination map
+          </a>
+        </div>
+      )}
     </div>
   );
 };
