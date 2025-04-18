@@ -12,15 +12,8 @@ const Header: React.FC = () => {
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="container py-4 flex justify-between items-center">
-        {/* Logo */}
-        <Link href="/" className="flex items-center">
-          <img 
-            src="/images/logo.png" 
-            alt="PFAS Claim Center Logo" 
-            className="h-10 w-auto mr-2"
-          />
-          <span className="text-2xl font-bold text-trustBlue">PFAS Claim Center</span>
-        </Link>
+        {/* Empty div to maintain spacing where logo was */}
+        <div className="invisible"></div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
