@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '../UI/Button';
 import Card from '../UI/Card';
 
 const AreYouAtRisk: React.FC = () => {
-  const [showMap, setShowMap] = useState(false);
-
   return (
     <section id="who-is-at-risk" className="py-16 bg-lightGray">
       <div className="container mx-auto">
@@ -53,45 +51,55 @@ const AreYouAtRisk: React.FC = () => {
                 >
                   Call Now For a Free Area Check
                 </Button>
-                <button 
-                  onClick={() => setShowMap(!showMap)} 
-                  className="text-trustBlue underline text-sm hover:text-trustBlue-dark"
-                >
-                  {showMap ? "Hide preview map" : "Show preview map"}
-                </button>
               </div>
             </Card>
           </div>
         </div>
         
-        {/* Collapsible Map Preview */}
-        {showMap && (
-          <div className="bg-white rounded-lg p-8 text-center shadow-md mb-10">
-            <h3 className="text-xl font-bold text-trustBlue mb-4">PFAS Contamination Preview Map</h3>
-            <div className="relative">
-              <img 
-                src="/images/pfas-map-preview.jpg" 
-                alt="PFAS contamination map preview" 
-                className="w-full max-h-96 object-cover rounded-lg"
-              />
-              <div className="absolute inset-0 bg-trustBlue bg-opacity-70 flex flex-col items-center justify-center p-6 rounded-lg">
-                <p className="text-white text-lg mb-4">
-                  This is just a preview. Our team has access to the complete database of affected areas.
-                </p>
-                <p className="text-white text-md mb-6">
-                  Source: Environmental Working Group Study identifying over 2,800 contamination sites
-                </p>
-                <Button 
-                  href="tel:+18339986147" 
-                  variant="warning" 
-                  size="large"
-                >
-                  Call Now For Your Free Area Check
-                </Button>
+        {/* Map Section - Visible by Default */}
+        <div className="bg-white rounded-lg p-8 text-center shadow-md mb-10">
+          <h3 className="text-xl font-bold text-trustBlue mb-4">PFAS Contamination Preview Map</h3>
+          <div className="relative">
+            <div 
+              className="w-full h-96 bg-trustBlue bg-opacity-10 rounded-lg flex items-center justify-center overflow-hidden"
+              style={{
+                backgroundImage: "url('/images/3-dirty-water-glass.jpg')",
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                filter: 'blur(2px) grayscale(30%)'
+              }}
+            >
+              {/* Map dots (representing contamination sites) */}
+              <div className="absolute inset-0 flex flex-wrap justify-around items-center">
+                {[...Array(24)].map((_, i) => (
+                  <div 
+                    key={i} 
+                    className="w-3 h-3 bg-warningRed rounded-full m-4 animate-pulse"
+                    style={{
+                      opacity: Math.random() * 0.5 + 0.5,
+                      transform: `scale(${Math.random() * 0.5 + 0.8})`
+                    }}
+                  ></div>
+                ))}
               </div>
             </div>
+            <div className="absolute inset-0 bg-trustBlue bg-opacity-60 flex flex-col items-center justify-center p-6 rounded-lg">
+              <p className="text-white text-lg mb-4">
+                This is just a preview. Our team has access to the complete database of affected areas.
+              </p>
+              <p className="text-white text-md mb-6">
+                Source: Environmental Working Group Study identifying over 2,800 contamination sites
+              </p>
+              <Button 
+                href="tel:+18339986147" 
+                variant="warning" 
+                size="large"
+              >
+                Call Now For Your Free Area Check
+              </Button>
+            </div>
           </div>
-        )}
+        </div>
         
         {/* Expert Team Section */}
         <div className="bg-white rounded-lg p-8 text-center shadow-md">
