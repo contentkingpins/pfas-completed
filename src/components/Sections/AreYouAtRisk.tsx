@@ -1,42 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '../UI/Button';
 import Card from '../UI/Card';
 
 const AreYouAtRisk: React.FC = () => {
-  const [zipCode, setZipCode] = useState<string>('');
-  const [isChecking, setIsChecking] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleZipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Only allow numeric input
-    const value = e.target.value.replace(/\D/g, '');
-    // Limit to 5 digits
-    if (value.length <= 5) {
-      setZipCode(value);
-      setError(null);
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (zipCode.length !== 5) {
-      setError('Please enter a valid 5-digit zip code');
-      return;
-    }
-    
-    setIsChecking(true);
-    setError(null);
-    
-    // Simulate API call
-    setTimeout(() => {
-      // Future implementation will check against actual data
-      setIsChecking(false);
-      // For now just show a message that the feature is coming soon
-      setError('Location check feature coming soon. Please call our hotline for immediate assistance.');
-    }, 1000);
-  };
-  
   return (
     <section id="who-is-at-risk" className="py-16 bg-lightGray">
       <div className="container mx-auto">
@@ -45,7 +11,7 @@ const AreYouAtRisk: React.FC = () => {
             Are You Living in a PFAS Hot Zone?
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Enter your zip code below to check if your area is affected by PFAS contamination.
+            Check if your area is affected by PFAS contamination using the Environmental Working Group's official map.
           </p>
         </div>
         
@@ -61,52 +27,49 @@ const AreYouAtRisk: React.FC = () => {
           <div>
             <Card elevated>
               <h3 className="text-xl font-bold text-trustBlue mb-4">Check Your Location</h3>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
-                    ZIP Code
-                  </label>
-                  <input
-                    type="text"
-                    id="zipCode"
-                    placeholder="Enter your 5-digit ZIP code"
-                    value={zipCode}
-                    onChange={handleZipChange}
-                    className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
-                      error ? 'border-warningRed' : 'border-gray-300'
-                    }`}
-                    maxLength={5}
-                    disabled={isChecking}
-                  />
-                  {error && (
-                    <p className="mt-1 text-sm text-warningRed">{error}</p>
-                  )}
-                </div>
-                <Button 
-                  type="submit" 
-                  variant="primary" 
-                  className="w-full"
-                  disabled={isChecking || zipCode.length !== 5}
+              <p className="text-gray-600 mb-4">
+                The Environmental Working Group has compiled the most comprehensive map of PFAS contamination in the United States.
+              </p>
+              <p className="text-sm text-gray-600 mb-4">
+                According to the Environmental Working Group (EWG), there are over 2,800 suspected industrial discharges of PFAS across the U.S.
+              </p>
+              <div className="flex justify-center">
+                <a 
+                  href="https://www.ewg.org/interactive-maps/2021_suspected_industrial_discharges_of_pfas/map/" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full text-center bg-trustBlue hover:bg-trustBlue-dark text-white py-3 px-6 rounded transition duration-300 inline-block"
                 >
-                  {isChecking ? 'Checking...' : 'Check Location'}
-                </Button>
-              </form>
+                  View the Official EWG Map
+                </a>
+              </div>
             </Card>
           </div>
         </div>
         
-        {/* Placeholder for future map implementation */}
+        {/* EWG Interactive Map Integration */}
         <div className="bg-white rounded-lg p-8 text-center shadow-md">
           <h3 className="text-xl font-bold text-trustBlue mb-4">Interactive Risk Map</h3>
-          <div className="h-64 bg-lightGray rounded-md flex items-center justify-center mb-4">
-            <p className="text-gray-500">
-              {/* TODO: Implement map integration with AWS Location Service */}
-              Interactive map coming soon. This feature will display known PFAS contamination sites.
-            </p>
+          <div className="bg-lightGray rounded-md mb-4 overflow-hidden">
+            <iframe 
+              src="https://www.ewg.org/interactive-maps/2021_suspected_industrial_discharges_of_pfas/map/" 
+              title="EWG PFAS Contamination Map" 
+              className="w-full h-96 border-0"
+              loading="lazy"
+            ></iframe>
           </div>
           <p className="text-gray-600">
-            Our comprehensive map of PFAS contamination zones is currently being updated with the latest data. 
-            To find out immediately if you're in an affected area, call our hotline for a free consultation.
+            Data provided by the Environmental Working Group. If you discover you're in an affected area, 
+            call our hotline for a free consultation to discuss your legal options.
+          </p>
+          <p className="text-sm text-gray-600 mt-4">
+            According to the Environmental Working Group (EWG), there are over 2,800 suspected industrial discharges of PFAS across the U.S. 
+            <a href="https://www.ewg.org/interactive-maps/2021_suspected_industrial_discharges_of_pfas/map/" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               className="text-trustBlue underline hover:text-trustBlue-dark ml-1">
+               View the official EWG interactive map for more details.
+            </a>
           </p>
           <Button href="tel:+18005551234" variant="primary" className="mt-4">
             Call Now for Immediate Assistance
