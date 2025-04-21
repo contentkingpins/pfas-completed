@@ -5,6 +5,7 @@ import Header from '../../components/Layout/Header';
 import Footer from '../../components/Layout/Footer';
 import Card from '../../components/UI/Card';
 import Button from '../../components/UI/Button';
+import AWS from 'aws-sdk';
 
 // Interface for uploaded image objects
 interface UploadedImage {
@@ -76,38 +77,38 @@ export default function UploadsPage() {
     try {
       // For demo purposes, we'll create a local URL
       // In production, you would upload to AWS S3 here
-      const reader = new FileReader();
+      // const reader = new FileReader();
       
-      reader.onload = () => {
-        const now = new Date();
-        const newImage: UploadedImage = {
-          id: `img_${Date.now()}`,
-          name: selectedFile.name,
-          url: reader.result as string,
-          uploadDate: now.toISOString(),
-          size: selectedFile.size
-        };
+      // reader.onload = () => {
+      //   const now = new Date();
+      //   const newImage: UploadedImage = {
+      //     id: `img_${Date.now()}`,
+      //     name: selectedFile.name,
+      //     url: reader.result as string,
+      //     uploadDate: now.toISOString(),
+      //     size: selectedFile.size
+      //   };
         
-        setUploadedImages(prev => [newImage, ...prev]);
-        setSelectedFile(null);
-        setSuccessMessage('Image uploaded successfully!');
+      //   setUploadedImages(prev => [newImage, ...prev]);
+      //   setSelectedFile(null);
+      //   setSuccessMessage('Image uploaded successfully!');
         
-        // Reset file input
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
-        }
+      //   // Reset file input
+      //   if (fileInputRef.current) {
+      //     fileInputRef.current.value = '';
+      //   }
         
-        setUploading(false);
-      };
+      //   setUploading(false);
+      // };
       
-      reader.onerror = () => {
-        setErrorMessage('Error reading file');
-        setUploading(false);
-      };
+      // reader.onerror = () => {
+      //   setErrorMessage('Error reading file');
+      //   setUploading(false);
+      // };
       
-      reader.readAsDataURL(selectedFile);
+      // reader.readAsDataURL(selectedFile);
       
-      /* 
+      // /* // REMOVE START COMMENT
       // AWS S3 Upload Code (would be used in production)
       // This requires AWS SDK and proper configuration
       
@@ -118,16 +119,17 @@ export default function UploadsPage() {
       });
       
       const params = {
-        Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME,
+        // Use environment variable for bucket name
+        Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME!, 
         Key: `uploads/${Date.now()}-${selectedFile.name}`,
         Body: selectedFile,
         ContentType: selectedFile.type,
-        ACL: 'public-read'
+        ACL: 'public-read' // Set object ACL to public-read
       };
       
       const { Location } = await s3.upload(params).promise();
       
-      const newImage = {
+      const newImage: UploadedImage = { // Use UploadedImage interface
         id: `img_${Date.now()}`,
         name: selectedFile.name,
         url: Location,
@@ -135,10 +137,16 @@ export default function UploadsPage() {
         size: selectedFile.size
       };
       
-      setUploadedImages(prev => [newImage, ...prev]);
+      setUploadedImages((prev: UploadedImage[]) => [newImage, ...prev]);
       setSelectedFile(null);
       setSuccessMessage('Image uploaded successfully!');
-      */
+      setUploading(false); // Moved setUploading(false) here
+      
+      // Reset file input after successful S3 upload
+      if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+      }
+      // */ // REMOVE END COMMENT
       
     } catch (error) {
       console.error('Upload error:', error);
@@ -149,7 +157,7 @@ export default function UploadsPage() {
 
   const handleDeleteImage = (id: string) => {
     // In production, this would also delete from S3
-    setUploadedImages(prev => prev.filter(img => img.id !== id));
+    setUploadedImages((prev: UploadedImage[]) => prev.filter(img => img.id !== id));
     setSuccessMessage('Image deleted successfully');
   };
 
