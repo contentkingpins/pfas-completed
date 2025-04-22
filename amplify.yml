@@ -34,18 +34,7 @@ applications:
     server:
       path: ./
       command: npm run start:prod
-  customHeaders:
-    - pattern: '**/*'
-      headers:
-        - key: 'Cache-Control'
-          value: 'public, max-age=0, must-revalidate'
-        - key: 'X-Content-Type-Options'
-          value: 'nosniff'
-        - key: 'X-XSS-Protection'
-          value: '1; mode=block'
-        - key: 'X-Frame-Options'
-          value: 'DENY'
-  environment:
-    variables:
-      - key: 'NODE_ENV'
-        value: 'production' 
+    environment:
+      variables:
+        - key: 'NODE_ENV'
+          value: 'production' 
