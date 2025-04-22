@@ -4,7 +4,8 @@ const nextConfig = {
   swcMinify: true,
   distDir: 'build',
   images: {
-    domains: ['localhost']
+    domains: ['localhost'],
+    unoptimized: true
   },
   trailingSlash: true
 }
