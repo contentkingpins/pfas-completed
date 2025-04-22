@@ -13,6 +13,9 @@ interface FormErrors {
   phone?: string;
 }
 
+// Updated API Gateway URL
+const API_ENDPOINT = 'https://wtrq7vmbmj.execute-api.us-east-1.amazonaws.com/prod/submissions';
+
 const EligibilityForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
@@ -23,6 +26,7 @@ const EligibilityForm: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -85,15 +89,30 @@ const EligibilityForm: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
     
     if (validateForm()) {
       setIsSubmitting(true);
       
-      // Simulate form submission with a delay
-      setTimeout(() => {
-        console.log('Form submitted:', formData);
+      try {
+        // Submit to our API Gateway endpoint instead of Next.js API
+        const response = await fetch(API_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(result.message || 'Failed to submit form');
+        }
+        
+        console.log('Form submission successful:', result);
         setIsSubmitting(false);
         setIsSubmitted(true);
         
@@ -103,7 +122,11 @@ const EligibilityForm: React.FC = () => {
           zipCode: '',
           phone: '',
         });
-      }, 1500);
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        setIsSubmitting(false);
+        setSubmitError(error instanceof Error ? error.message : 'An unexpected error occurred');
+      }
     }
   };
 
@@ -187,6 +210,12 @@ const EligibilityForm: React.FC = () => {
           <p className="mt-1 text-sm text-warningRed">{errors.phone}</p>
         )}
       </div>
+
+      {submitError && (
+        <div className="p-3 bg-warningRed bg-opacity-10 text-warningRed rounded-lg">
+          {submitError}
+        </div>
+      )}
 
       <Button
         type="submit"
