@@ -1,40 +1,31 @@
 version: 1
-applications:
-  - frontend:
-      phases:
-        preBuild:
-          commands:
-            - npm ci
-        build:
-          commands:
-            - npm run build
-        postBuild:
-          commands:
-            - echo "Running post-build commands for SSR setup"
-      artifacts:
-        baseDirectory: build
-        files:
-          - '**/*'
-      cache:
-        paths:
-          - node_modules/**/*
-      customHeaders:
-        - pattern: '**/*'
-          headers:
-            - key: 'Cache-Control'
-              value: 'public, max-age=0, must-revalidate'
-            - key: 'X-Content-Type-Options'
-              value: 'nosniff'
-            - key: 'X-XSS-Protection'
-              value: '1; mode=block'
-            - key: 'X-Frame-Options'
-              value: 'DENY'
-      buildPath: /
-    appRoot: /
-    server:
-      path: ./
-      command: npm run start:prod
-    environment:
-      variables:
-        - key: 'NODE_ENV'
-          value: 'production' 
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+  customHeaders:
+    - pattern: '**/*'
+      headers:
+        - key: 'Cache-Control'
+          value: 'public, max-age=0, must-revalidate'
+        - key: 'X-Content-Type-Options'
+          value: 'nosniff'
+        - key: 'X-XSS-Protection'
+          value: '1; mode=block'
+        - key: 'X-Frame-Options'
+          value: 'DENY'
+  environment:
+    variables:
+      - key: 'NODE_ENV'
+        value: 'production' 
