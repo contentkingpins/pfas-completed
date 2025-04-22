@@ -13,8 +13,9 @@ interface FormErrors {
   phone?: string;
 }
 
-// Updated API Gateway URL
+// Updated API Gateway URL with console log
 const API_ENDPOINT = 'https://wtrq7vmbmj.execute-api.us-east-1.amazonaws.com/prod/submissions';
+console.log('API Endpoint configured as:', API_ENDPOINT);
 
 const EligibilityForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -95,9 +96,10 @@ const EligibilityForm: React.FC = () => {
     
     if (validateForm()) {
       setIsSubmitting(true);
+      console.log('Submitting form to:', API_ENDPOINT);
       
       try {
-        // Submit to our API Gateway endpoint instead of Next.js API
+        // Submit to our API Gateway endpoint
         const response = await fetch(API_ENDPOINT, {
           method: 'POST',
           headers: {
@@ -106,7 +108,11 @@ const EligibilityForm: React.FC = () => {
           body: JSON.stringify(formData),
         });
         
+        console.log('API Response received:', response.status);
+        
         const result = await response.json();
+        
+        console.log('API Result:', result);
         
         if (!response.ok) {
           throw new Error(result.message || 'Failed to submit form');
