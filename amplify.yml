@@ -25,12 +25,7 @@ frontend:
           value: '1; mode=block'
         - key: 'X-Frame-Options'
           value: 'DENY'
-  buildPath: /
-appRoot: .
-server:
-  path: .
-  command: npm run start:prod
-environment:
-  variables:
-    - key: 'NODE_ENV'
-      value: 'production' 
+  environment:
+    variables:
+      - key: 'NODE_ENV'
+        value: 'production' 
