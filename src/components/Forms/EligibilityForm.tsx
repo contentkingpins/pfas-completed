@@ -61,6 +61,7 @@ const EligibilityForm: React.FC = () => {
   };
 
   const validateForm = (): boolean => {
+    console.log('Running form validation');
     const newErrors: FormErrors = {};
     
     // Validate name
@@ -86,15 +87,19 @@ const EligibilityForm: React.FC = () => {
       }
     }
     
+    console.log('Validation errors:', newErrors);
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Form submission started');
+    console.log('Current form data:', formData);
     setSubmitError(null);
     
     if (validateForm()) {
+      console.log('Form validation passed');
       setIsSubmitting(true);
       console.log('Submitting form to:', API_ENDPOINT);
       console.log('Form data being sent:', JSON.stringify(formData));
@@ -136,6 +141,8 @@ const EligibilityForm: React.FC = () => {
         setIsSubmitting(false);
         setSubmitError(error instanceof Error ? error.message : 'An unexpected error occurred');
       }
+    } else {
+      console.log('Form validation failed', errors);
     }
   };
 
