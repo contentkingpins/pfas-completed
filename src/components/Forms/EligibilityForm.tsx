@@ -97,8 +97,10 @@ const EligibilityForm: React.FC = () => {
     if (validateForm()) {
       setIsSubmitting(true);
       console.log('Submitting form to:', API_ENDPOINT);
+      console.log('Form data being sent:', JSON.stringify(formData));
       
       try {
+        console.log('Attempting fetch...');
         // Submit to our API Gateway endpoint
         const response = await fetch(API_ENDPOINT, {
           method: 'POST',
@@ -108,6 +110,7 @@ const EligibilityForm: React.FC = () => {
           body: JSON.stringify(formData),
         });
         
+        console.log('Fetch call completed.');
         console.log('API Response received:', response.status);
         
         const result = await response.json();
