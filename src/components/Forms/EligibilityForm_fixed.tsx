@@ -68,14 +68,14 @@ const EligibilityForm: React.FC = () => {
     
     // For zip code, only allow numbers and limit to 5 characters
     if (name === 'zipCode') {
-      const numericValue = value.replace(/\\D/g, '').slice(0, 5);
+      const numericValue = value.replace(/\D/g, '').slice(0, 5);
       setFormData({ ...formData, [name]: numericValue });
       return;
     }
     
     // For phone, format as user types
     if (name === 'phone') {
-      const digits = value.replace(/\\D/g, '');
+      const digits = value.replace(/\D/g, '');
       let formattedPhone = '';
       
       if (digits.length <= 3) {
@@ -115,7 +115,7 @@ const EligibilityForm: React.FC = () => {
       newErrors.phone = 'Phone number is required';
     } else {
       // Check if phone has enough digits (10) after removing non-digits
-      const phoneDigits = formData.phone.replace(/\\D/g, '');
+      const phoneDigits = formData.phone.replace(/\D/g, '');
       if (phoneDigits.length !== 10) {
         newErrors.phone = 'Please enter a valid 10-digit phone number';
       }
