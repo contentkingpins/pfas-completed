@@ -135,8 +135,19 @@ const EligibilityForm: React.FC = () => {
     if (validateForm()) {
       console.log('Form validation passed');
       setIsSubmitting(true);
+      
+      // Get TrustedForm certificate URL if available
+      const certUrlElement = document.getElementById('xxTrustedFormCertUrl') as HTMLInputElement;
+      const certUrl = certUrlElement ? certUrlElement.value : '';
+      
+      // Include TrustedForm certificate URL in form data
+      const formDataWithCert = {
+        ...formData,
+        trustedFormCertUrl: certUrl
+      };
+      
       console.log('Submitting form to:', API_ENDPOINT);
-      console.log('Form data being sent:', JSON.stringify(formData));
+      console.log('Form data being sent:', JSON.stringify(formDataWithCert));
       
       try {
         console.log('Attempting fetch...');
@@ -146,7 +157,7 @@ const EligibilityForm: React.FC = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(formDataWithCert),
         });
         
         console.log('Fetch call completed.');
@@ -200,6 +211,9 @@ const EligibilityForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {/* TrustedForm hidden field */}
+      <input type="hidden" name="xxTrustedFormCertUrl" id="xxTrustedFormCertUrl" />
+      
       <div>
         <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
           Full Name
