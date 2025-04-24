@@ -20,7 +20,7 @@ class MyDocument extends Document {
           {/* TrustedForm Script */}
           <script 
             type="text/javascript"
-            src="https://certificates.trustedform.com/certificates.js?provide_referrer=true"
+            src="https://api.trustedform.com/trustedform.js"
             data-vendor="PFASClaimCenter"
             data-isolation="on"
           />
