@@ -16,6 +16,14 @@ class MyDocument extends Document {
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
           <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+          
+          {/* TrustedForm Script */}
+          <script 
+            type="text/javascript"
+            src="https://certificates.trustedform.com/certificates.js?provide_referrer=true"
+            data-vendor="PFASClaimCenter"
+            data-isolation="on"
+          />
         </Head>
         <body>
           <Main />
