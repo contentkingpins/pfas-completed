@@ -17,33 +17,39 @@ interface FormErrors {
 const API_ENDPOINT = 'https://wtrq7vmbmj.execute-api.us-east-1.amazonaws.com/prod/submissions';
 
 // Double checking the API endpoint with a very visible log
-console.log('================================================');
-console.log('API ENDPOINT:', API_ENDPOINT);
-console.log('================================================');
+// Only log in browser environment
+if (typeof window !== 'undefined') {
+  console.log('================================================');
+  console.log('API ENDPOINT:', API_ENDPOINT);
+  console.log('================================================');
+}
 
 // A simple global test function to verify direct API calls work
 // This can be called from the browser console: testApiEndpoint()
-(window as any).testApiEndpoint = async () => {
-  console.log('Testing API endpoint:', API_ENDPOINT);
-  try {
-    const response = await fetch(API_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        fullName: 'Test User',
-        zipCode: '12345',
-        phone: '555-555-5555'
-      })
-    });
-    console.log('API test response status:', response.status);
-    const data = await response.json();
-    console.log('API test response data:', data);
-    return data;
-  } catch (error) {
-    console.error('API test error:', error);
-    return error;
-  }
-};
+// Only define this on the client-side, not during server-side rendering
+if (typeof window !== 'undefined') {
+  (window as any).testApiEndpoint = async () => {
+    console.log('Testing API endpoint:', API_ENDPOINT);
+    try {
+      const response = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          fullName: 'Test User',
+          zipCode: '12345',
+          phone: '555-555-5555'
+        })
+      });
+      console.log('API test response status:', response.status);
+      const data = await response.json();
+      console.log('API test response data:', data);
+      return data;
+    } catch (error) {
+      console.error('API test error:', error);
+      return error;
+    }
+  };
+}
 
 const EligibilityForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
