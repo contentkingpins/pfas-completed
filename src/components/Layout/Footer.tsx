@@ -1,7 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import PrivacyPolicy from '../UI/PrivacyPolicy';
-import TermsOfService from '../UI/TermsOfService';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -62,10 +60,10 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-bold text-white mb-3">Legal</h4>
             <ul className="space-y-2">
               <li>
-                <PrivacyPolicy textLinkClass="text-gray-300 hover:text-safetyGreen" />
+                <Link href="/privacy-policy" className="text-gray-300 hover:text-safetyGreen">Privacy Policy</Link>
               </li>
               <li>
-                <TermsOfService textLinkClass="text-gray-300 hover:text-safetyGreen" />
+                <Link href="/terms-of-service" className="text-gray-300 hover:text-safetyGreen">Terms of Service</Link>
               </li>
               <li>
                 <a href="#check-eligibility" onClick={handleLegalDisclaimerClick} className="text-gray-300 hover:text-safetyGreen">Legal Disclaimer</a>
