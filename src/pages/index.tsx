@@ -14,28 +14,28 @@ import StickyCallButton from '../components/Layout/StickyCallButton';
 
 // Simple homepage with all sections
 export default function Home() {
-  // Ensure page starts at the top
+  // Ensure page starts at the top and form is visible
   useEffect(() => {
     // Force scroll to top on initial load
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0);
       
-      // Handle hash links for scrolling to form
+      // Focus on the first form input after page load
+      setTimeout(() => {
+        const firstInput = document.querySelector('#check-eligibility input:first-of-type');
+        if (firstInput) {
+          // Optional: can focus on the first input immediately
+          // firstInput.focus();
+        }
+      }, 500);
+      
+      // Handle anchor links for form
       const handleHashChange = () => {
         if (window.location.hash === '#check-eligibility') {
           setTimeout(() => {
-            // On mobile, scroll to mobile form
-            if (window.innerWidth < 768) {
-              const mobileForm = document.getElementById('check-eligibility-mobile');
-              if (mobileForm) {
-                mobileForm.scrollIntoView({ behavior: 'smooth' });
-              }
-            } else {
-              // On desktop, scroll to desktop form
-              const desktopForm = document.getElementById('check-eligibility');
-              if (desktopForm) {
-                desktopForm.scrollIntoView({ behavior: 'smooth' });
-              }
+            const formElement = document.getElementById('check-eligibility');
+            if (formElement) {
+              formElement.scrollIntoView({ behavior: 'smooth' });
             }
           }, 100);
         }
