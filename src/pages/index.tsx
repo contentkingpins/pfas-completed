@@ -16,18 +16,37 @@ import StickyCallButton from '../components/Layout/StickyCallButton';
 export default function Home() {
   // Ensure page starts at the top and form is visible
   useEffect(() => {
-    // Force scroll to top on initial load
     if (typeof window !== 'undefined') {
+      // Force scroll to top on initial load - multiple times to ensure it works
       window.scrollTo(0, 0);
+      
+      // Add a stronger force to stay at the top initially
+      const forceScrollTop = () => {
+        window.scrollTo(0, 0);
+        
+        // Double-check after a small delay
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 100);
+        
+        // Triple-check after another delay
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 500);
+      };
+      
+      // Apply these checks when page loads
+      window.addEventListener('load', forceScrollTop);
+      forceScrollTop();
       
       // Focus on the first form input after page load
       setTimeout(() => {
         const firstInput = document.querySelector('#check-eligibility input:first-of-type');
         if (firstInput) {
-          // Optional: can focus on the first input immediately
-          // firstInput.focus();
+          // Focus on first input to draw attention to the form
+          (firstInput as HTMLElement).focus();
         }
-      }, 500);
+      }, 800);
       
       // Handle anchor links for form
       const handleHashChange = () => {
@@ -41,16 +60,35 @@ export default function Home() {
         }
       };
       
+      // Stop any automatic scrolling to sections other than the form
+      const preventScrollToOtherSections = (event: Event) => {
+        // Only allow scrolling to the form section initially
+        if (window.location.hash && window.location.hash !== '#check-eligibility') {
+          // Prevent the default scroll
+          event.preventDefault();
+          // Redirect to the form instead
+          window.location.hash = '#check-eligibility';
+        }
+      };
+      
       // Listen for hash changes
       window.addEventListener('hashchange', handleHashChange);
+      window.addEventListener('hashchange', preventScrollToOtherSections, true);
       
       // Check hash on initial load
       if (window.location.hash) {
-        handleHashChange();
+        if (window.location.hash === '#check-eligibility') {
+          handleHashChange();
+        } else {
+          // If hash points to another section, force to form instead
+          window.location.hash = '#check-eligibility';
+        }
       }
       
       return () => {
+        window.removeEventListener('load', forceScrollTop);
         window.removeEventListener('hashchange', handleHashChange);
+        window.removeEventListener('hashchange', preventScrollToOtherSections, true);
       };
     }
   }, []);

@@ -4,27 +4,45 @@ import Card from '../UI/Card';
 
 const AreYouAtRisk: React.FC = () => {
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [showMap, setShowMap] = useState(false);
   const mapRef = useRef<HTMLIFrameElement>(null);
 
-  // Prevent auto scrolling to map on page load
+  // Ensure the page focuses on the form first
   useEffect(() => {
-    // Ensure window starts at the top of the page
+    // Prevent scrolling to this section on load
     if (typeof window !== 'undefined') {
-      window.scrollTo(0, 0);
+      // Make sure the form is the first thing a user sees
+      const checkForm = () => {
+        const formSection = document.getElementById('check-eligibility');
+        if (formSection) {
+          setTimeout(() => {
+            window.scrollTo(0, 0);
+          }, 100);
+        }
+      };
+      
+      checkForm();
+      window.addEventListener('load', checkForm);
+      
+      // Prevent scrolling when hash links are clicked for this section
+      const preventHashScroll = (event: HashChangeEvent) => {
+        if (event.newURL.includes('#who-is-at-risk')) {
+          event.preventDefault();
+          // Redirect to the form instead
+          const formSection = document.getElementById('check-eligibility');
+          if (formSection) {
+            formSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      };
+      
+      window.addEventListener('hashchange', preventHashScroll);
+      
+      return () => {
+        window.removeEventListener('load', checkForm);
+        window.removeEventListener('hashchange', preventHashScroll);
+      };
     }
-    
-    // Prevent scrolling when hash links are clicked
-    const preventHashScroll = (event: HashChangeEvent) => {
-      if (event.newURL.includes('#who-is-at-risk')) {
-        window.scrollTo(0, 0);
-      }
-    };
-    
-    window.addEventListener('hashchange', preventHashScroll);
-    
-    return () => {
-      window.removeEventListener('hashchange', preventHashScroll);
-    };
   }, []);
 
   // Handle map load - prevent auto focus when loaded
@@ -32,6 +50,11 @@ const AreYouAtRisk: React.FC = () => {
     setMapLoaded(true);
     // Ensure focus stays on the page content
     document.body.focus();
+  };
+
+  // Toggle map visibility
+  const toggleMap = () => {
+    setShowMap(!showMap);
   };
 
   return (
@@ -80,48 +103,47 @@ const AreYouAtRisk: React.FC = () => {
               {/* EWG Map Link - always visible */}
               <p className="text-sm text-gray-600 mt-4">
                 According to the Environmental Working Group (EWG), there are over 2,800 suspected industrial discharges of PFAS across the U.S. 
-                <a href="https://www.ewg.org/interactive-maps/2021_suspected_industrial_discharges_of_pfas/map/" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-blue-600 underline hover:text-blue-800 ml-1">
-                  View the official EWG interactive map here.
-                </a>
+                <button 
+                  onClick={toggleMap}
+                  className="text-blue-600 underline hover:text-blue-800 ml-1 bg-transparent border-0"
+                >
+                  {showMap ? 'Hide the interactive map' : 'View the interactive map'}
+                </button>
               </p>
             </Card>
           </div>
         </div>
         
-        {/* EWG Interactive Map Integration */}
-        <div className="bg-white rounded-lg p-8 text-center shadow-md mb-10">
-          <h3 className="text-xl font-bold text-trustBlue mb-4">PFAS Contamination Preview Map</h3>
-          <div className="bg-lightGray rounded-md mb-4 overflow-hidden">
-            <iframe 
-              ref={mapRef}
-              src="https://www.ewg.org/interactive-maps/2021_suspected_industrial_discharges_of_pfas/map/" 
-              title="EWG PFAS Contamination Map" 
-              className="w-full h-96 border-0"
-              loading="lazy"
-              onLoad={handleMapLoad}
-              tabIndex={-1} // Prevent automatic focus
-            ></iframe>
+        {/* EWG Interactive Map Integration - Only shown when user clicks to view it */}
+        {showMap && (
+          <div className="bg-white rounded-lg p-8 text-center shadow-md mb-10">
+            <h3 className="text-xl font-bold text-trustBlue mb-4">PFAS Contamination Preview Map</h3>
+            <div className="bg-lightGray rounded-md mb-4 overflow-hidden">
+              <iframe 
+                ref={mapRef}
+                src="https://www.ewg.org/interactive-maps/2021_suspected_industrial_discharges_of_pfas/map/" 
+                title="EWG PFAS Contamination Map" 
+                className="w-full h-96 border-0"
+                loading="lazy"
+                onLoad={handleMapLoad}
+                tabIndex={-1} // Prevent automatic focus
+              ></iframe>
+            </div>
+            <p className="text-gray-600">
+              Data provided by the Environmental Working Group. If you discover you're in an affected area, 
+              call our hotline for a free consultation to discuss your legal options.
+            </p>
+            <Button href="tel:+18339986147" variant="primary" className="mt-4">
+              Call Now For Your Free Area Check
+            </Button>
+            <button 
+              onClick={toggleMap}
+              className="block mx-auto mt-4 text-gray-500 underline"
+            >
+              Hide Map
+            </button>
           </div>
-          <p className="text-gray-600">
-            Data provided by the Environmental Working Group. If you discover you're in an affected area, 
-            call our hotline for a free consultation to discuss your legal options.
-          </p>
-          <p className="text-sm text-gray-600 mt-4">
-            According to the Environmental Working Group (EWG), there are over 2,800 suspected industrial discharges of PFAS across the U.S. 
-            <a href="https://www.ewg.org/interactive-maps/2021_suspected_industrial_discharges_of_pfas/map/" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               className="text-trustBlue underline hover:text-trustBlue-dark ml-1">
-               View the official EWG interactive map for more details.
-            </a>
-          </p>
-          <Button href="tel:+18339986147" variant="primary" className="mt-4">
-            Call Now For Your Free Area Check
-          </Button>
-        </div>
+        )}
         
         {/* Expert Team Section */}
         <div className="bg-white rounded-lg p-8 text-center shadow-md">
