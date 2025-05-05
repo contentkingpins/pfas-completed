@@ -5,8 +5,6 @@ import Card from '../UI/Card';
 const AreYouAtRisk: React.FC = () => {
   const [mapLoaded, setMapLoaded] = useState(false);
   const mapRef = useRef<HTMLIFrameElement>(null);
-  const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const [userInteracted, setUserInteracted] = useState(false);
 
   // Prevent auto scrolling to map on page load
   useEffect(() => {
@@ -28,73 +26,6 @@ const AreYouAtRisk: React.FC = () => {
       window.removeEventListener('hashchange', preventHashScroll);
     };
   }, []);
-
-  // Setup inactivity timer to scroll to map after 10 seconds if user hasn't interacted with form
-  useEffect(() => {
-    // Function to handle any user interaction
-    const handleUserInteraction = () => {
-      setUserInteracted(true);
-      // Reset the timer on interaction
-      if (inactivityTimerRef.current) {
-        clearTimeout(inactivityTimerRef.current);
-      }
-    };
-
-    // Set up event listeners for user interaction
-    const interactionEvents = ['click', 'touchstart', 'scroll', 'keydown', 'mousemove'];
-    interactionEvents.forEach(event => {
-      window.addEventListener(event, handleUserInteraction);
-    });
-
-    // Track form interactions specifically
-    const trackFormInteractions = () => {
-      const formElements = document.querySelectorAll('input, select, textarea, button');
-      formElements.forEach(element => {
-        element.addEventListener('focus', handleUserInteraction);
-        element.addEventListener('click', handleUserInteraction);
-        element.addEventListener('input', handleUserInteraction);
-      });
-    };
-
-    // Run once and also after a small delay to ensure all form elements are loaded
-    trackFormInteractions();
-    setTimeout(trackFormInteractions, 1000);
-
-    // Start inactivity timer if user hasn't interacted yet
-    if (!userInteracted) {
-      inactivityTimerRef.current = setTimeout(() => {
-        // Check if form has been interacted with
-        const mobileFormElement = document.getElementById('check-eligibility-mobile');
-        const desktopFormElement = document.getElementById('check-eligibility');
-        
-        if (!userInteracted) {
-          // Scroll to map if user hasn't interacted with the form
-          const mapSection = document.querySelector('.bg-white.rounded-lg');
-          if (mapSection) {
-            mapSection.scrollIntoView({ behavior: 'smooth' });
-          }
-        }
-      }, 10000); // 10 seconds
-    }
-
-    // Cleanup
-    return () => {
-      if (inactivityTimerRef.current) {
-        clearTimeout(inactivityTimerRef.current);
-      }
-      interactionEvents.forEach(event => {
-        window.removeEventListener(event, handleUserInteraction);
-      });
-      
-      // Clean up form element listeners
-      const formElements = document.querySelectorAll('input, select, textarea, button');
-      formElements.forEach(element => {
-        element.removeEventListener('focus', handleUserInteraction);
-        element.removeEventListener('click', handleUserInteraction);
-        element.removeEventListener('input', handleUserInteraction);
-      });
-    };
-  }, [userInteracted]);
 
   // Handle map load - prevent auto focus when loaded
   const handleMapLoad = () => {
