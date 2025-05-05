@@ -1,11 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
+import PrivacyPolicy from '../UI/PrivacyPolicy';
+import TermsOfService from '../UI/TermsOfService';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   
-  // Function to handle privacy policy click
-  const handlePrivacyClick = (e: React.MouseEvent) => {
+  // Function to handle legal disclaimer click
+  const handleLegalDisclaimerClick = (e: React.MouseEvent) => {
     e.preventDefault();
     // Scroll to the form
     const formElement = document.getElementById('check-eligibility');
@@ -60,13 +62,13 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-bold text-white mb-3">Legal</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#check-eligibility" onClick={handlePrivacyClick} className="text-gray-300 hover:text-safetyGreen">Privacy Policy</a>
+                <PrivacyPolicy textLinkClass="text-gray-300 hover:text-safetyGreen" />
               </li>
               <li>
-                <a href="#check-eligibility" onClick={handlePrivacyClick} className="text-gray-300 hover:text-safetyGreen">Terms of Service</a>
+                <TermsOfService textLinkClass="text-gray-300 hover:text-safetyGreen" />
               </li>
               <li>
-                <a href="#check-eligibility" onClick={handlePrivacyClick} className="text-gray-300 hover:text-safetyGreen">Legal Disclaimer</a>
+                <a href="#check-eligibility" onClick={handleLegalDisclaimerClick} className="text-gray-300 hover:text-safetyGreen">Legal Disclaimer</a>
               </li>
             </ul>
           </div>

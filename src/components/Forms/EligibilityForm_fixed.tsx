@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../UI/Button';
+import PrivacyPolicy from '../UI/PrivacyPolicy';
 
 interface FormData {
   firstName: string;
@@ -354,7 +355,7 @@ const EligibilityForm: React.FC = () => {
       
       <p className="text-xs text-gray-500 mt-2">
         By submitting this form, you agree to be contacted by our legal team 
-        regarding your potential PFAS claim. We respect your <a href="#check-eligibility" className="text-trustBlue hover:underline">privacy</a> and will 
+        regarding your potential PFAS claim. We respect your <PrivacyPolicy textLinkClass="text-trustBlue hover:underline" /> and will 
         never share your information with third parties.
       </p>
     </form>
