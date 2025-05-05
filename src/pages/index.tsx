@@ -20,17 +20,37 @@ export default function Home() {
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0);
       
-      // Prevent any automatic scrolling
-      const preventAutoScroll = () => {
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-        }, 0);
+      // Handle hash links for scrolling to form
+      const handleHashChange = () => {
+        if (window.location.hash === '#check-eligibility') {
+          setTimeout(() => {
+            // On mobile, scroll to mobile form
+            if (window.innerWidth < 768) {
+              const mobileForm = document.getElementById('check-eligibility-mobile');
+              if (mobileForm) {
+                mobileForm.scrollIntoView({ behavior: 'smooth' });
+              }
+            } else {
+              // On desktop, scroll to desktop form
+              const desktopForm = document.getElementById('check-eligibility');
+              if (desktopForm) {
+                desktopForm.scrollIntoView({ behavior: 'smooth' });
+              }
+            }
+          }, 100);
+        }
       };
       
-      window.addEventListener('load', preventAutoScroll);
+      // Listen for hash changes
+      window.addEventListener('hashchange', handleHashChange);
+      
+      // Check hash on initial load
+      if (window.location.hash) {
+        handleHashChange();
+      }
       
       return () => {
-        window.removeEventListener('load', preventAutoScroll);
+        window.removeEventListener('hashchange', handleHashChange);
       };
     }
   }, []);

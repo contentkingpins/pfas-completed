@@ -16,6 +16,17 @@ const HeroSection: React.FC = () => {
       <div className="absolute inset-0 bg-trustBlue bg-opacity-70"></div>
       
       <div className="container mx-auto relative z-10">
+        {/* Mobile Form - Displayed at the top on mobile devices */}
+        <div className="block md:hidden mb-8" id="check-eligibility-mobile">
+          <div className="bg-white rounded-xl shadow-xl p-6">
+            <h2 className="text-2xl font-bold text-trustBlue mb-4">Check Your Eligibility</h2>
+            <p className="text-gray-600 mb-6">
+              Enter your information below to see if you qualify for a PFAS water contamination lawsuit.
+            </p>
+            <EligibilityForm />
+          </div>
+        </div>
+
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div className="order-2 md:order-1 text-white">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -58,7 +69,8 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
           
-          <div className="order-1 md:order-2" id="check-eligibility">
+          {/* Desktop Form - Hidden on mobile, visible on desktop */}
+          <div className="order-1 md:order-2 hidden md:block" id="check-eligibility">
             <div className="bg-white rounded-xl shadow-xl p-6">
               <h2 className="text-2xl font-bold text-trustBlue mb-4">Check Your Eligibility</h2>
               <p className="text-gray-600 mb-6">
