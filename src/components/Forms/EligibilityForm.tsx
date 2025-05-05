@@ -2,20 +2,26 @@ import React, { useState } from 'react';
 import Button from '../UI/Button';
 
 interface FormData {
-  fullName: string;
+  firstName: string;
+  lastName: string;
+  email: string;
   zipCode: string;
   phone: string;
 }
 
 interface FormErrors {
-  fullName?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
   zipCode?: string;
   phone?: string;
 }
 
 const EligibilityForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    fullName: '',
+    firstName: '',
+    lastName: '',
+    email: '',
     zipCode: '',
     phone: '',
   });
@@ -58,9 +64,21 @@ const EligibilityForm: React.FC = () => {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
     
-    // Validate name
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Name is required';
+    // Validate first name
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = 'First name is required';
+    }
+    
+    // Validate last name
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = 'Last name is required';
+    }
+    
+    // Validate email
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
     }
     
     // Validate zip code
@@ -99,7 +117,9 @@ const EligibilityForm: React.FC = () => {
         
         // Clear form after submission
         setFormData({
-          fullName: '',
+          firstName: '',
+          lastName: '',
+          email: '',
           zipCode: '',
           phone: '',
         });
@@ -127,23 +147,85 @@ const EligibilityForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+            First Name
+          </label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
+              errors.firstName ? 'border-warningRed' : 'border-gray-300'
+            }`}
+            placeholder="John"
+          />
+          {errors.firstName && (
+            <p className="mt-1 text-sm text-warningRed">{errors.firstName}</p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+            Last Name
+          </label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
+              errors.lastName ? 'border-warningRed' : 'border-gray-300'
+            }`}
+            placeholder="Smith"
+          />
+          {errors.lastName && (
+            <p className="mt-1 text-sm text-warningRed">{errors.lastName}</p>
+          )}
+        </div>
+      </div>
+
       <div>
-        <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
-          Full Name
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          Email Address
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
+            errors.email ? 'border-warningRed' : 'border-gray-300'
+          }`}
+          placeholder="email@example.com"
+        />
+        {errors.email && (
+          <p className="mt-1 text-sm text-warningRed">{errors.email}</p>
+        )}
+      </div>
+
+      <div>
+        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+          Phone Number
         </label>
         <input
           type="text"
-          id="fullName"
-          name="fullName"
-          value={formData.fullName}
+          id="phone"
+          name="phone"
+          value={formData.phone}
           onChange={handleChange}
           className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
-            errors.fullName ? 'border-warningRed' : 'border-gray-300'
+            errors.phone ? 'border-warningRed' : 'border-gray-300'
           }`}
-          placeholder="John Smith"
+          placeholder="123-456-7890"
         />
-        {errors.fullName && (
-          <p className="mt-1 text-sm text-warningRed">{errors.fullName}</p>
+        {errors.phone && (
+          <p className="mt-1 text-sm text-warningRed">{errors.phone}</p>
         )}
       </div>
 
@@ -165,26 +247,6 @@ const EligibilityForm: React.FC = () => {
         />
         {errors.zipCode && (
           <p className="mt-1 text-sm text-warningRed">{errors.zipCode}</p>
-        )}
-      </div>
-
-      <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-          Phone Number
-        </label>
-        <input
-          type="text"
-          id="phone"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
-            errors.phone ? 'border-warningRed' : 'border-gray-300'
-          }`}
-          placeholder="123-456-7890"
-        />
-        {errors.phone && (
-          <p className="mt-1 text-sm text-warningRed">{errors.phone}</p>
         )}
       </div>
 
