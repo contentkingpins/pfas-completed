@@ -1,23 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '../UI/Button';
 
 const StickyCallButton: React.FC = () => {
-  // Smooth scroll to map section instead of using hash links
-  const scrollToMapSection = (e: React.MouseEvent) => {
-    e.preventDefault();
-    
-    const mapSection = document.getElementById('who-is-at-risk');
-    if (mapSection) {
-      // Find the map container instead of the section itself to scroll to right position
-      const mapContainer = mapSection.querySelector('.bg-white.rounded-lg');
-      if (mapContainer) {
-        mapContainer.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        mapSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
-
   return (
     <div className="fixed bottom-4 right-4 z-50 md:hidden">
       <Button 
@@ -33,19 +17,6 @@ const StickyCallButton: React.FC = () => {
           Call Now
         </div>
       </Button>
-
-      {/* Map link always visible instead of tooltip */}
-      <div className="absolute bottom-16 right-0 bg-white p-4 rounded-lg shadow-lg w-64 text-sm border border-gray-200">
-        <p className="text-gray-600 mb-2">
-          Want to check if your area is affected?
-        </p>
-        <button 
-          className="text-trustBlue font-medium hover:underline bg-transparent border-none p-0 cursor-pointer text-left"
-          onClick={scrollToMapSection}
-        >
-          View the PFAS contamination map
-        </button>
-      </div>
     </div>
   );
 };

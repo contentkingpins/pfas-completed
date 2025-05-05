@@ -20,7 +20,7 @@ const Header: React.FC = () => {
           <Link href="#what-is-pfas" className="text-gray-700 hover:text-trustBlue">
             About PFAS
           </Link>
-          <Link href="#who-is-at-risk" className="text-gray-700 hover:text-trustBlue">
+          <Link href="#check-eligibility" className="text-gray-700 hover:text-trustBlue">
             Check Eligibility
           </Link>
           <Link href="#case-results" className="text-gray-700 hover:text-trustBlue">
@@ -68,7 +68,7 @@ const Header: React.FC = () => {
               About PFAS
             </Link>
             <Link 
-              href="#who-is-at-risk" 
+              href="#check-eligibility" 
               className="text-gray-700 hover:text-trustBlue py-2"
               onClick={() => setMobileMenuOpen(false)}
             >

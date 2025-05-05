@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
                 <Link href="#what-is-pfas" className="text-gray-300 hover:text-safetyGreen">About PFAS</Link>
               </li>
               <li>
-                <Link href="#who-is-at-risk" className="text-gray-300 hover:text-safetyGreen">Check Eligibility</Link>
+                <Link href="#check-eligibility" className="text-gray-300 hover:text-safetyGreen">Check Eligibility</Link>
               </li>
               <li>
                 <Link href="#case-results" className="text-gray-300 hover:text-safetyGreen">Case Results</Link>
