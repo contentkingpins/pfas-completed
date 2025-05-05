@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../UI/Button';
-import EligibilityForm from '../Forms/EligibilityForm';
+import EligibilityForm from '../Forms/EligibilityForm_fixed';
 
 const HeroSection: React.FC = () => {
   return (

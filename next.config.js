@@ -2,9 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: 'export',
   distDir: 'build',
+  output: 'export',
   images: {
+    domains: ['localhost'],
     unoptimized: true
   },
   trailingSlash: true
