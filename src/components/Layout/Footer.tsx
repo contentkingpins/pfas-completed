@@ -4,6 +4,23 @@ import Link from 'next/link';
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   
+  // Function to handle privacy policy click
+  const handlePrivacyClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Scroll to the form
+    const formElement = document.getElementById('check-eligibility');
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: 'smooth' });
+    }
+    // Focus on the first input if desired
+    setTimeout(() => {
+      const firstInput = document.querySelector('#check-eligibility input:first-of-type');
+      if (firstInput) {
+        (firstInput as HTMLElement).focus();
+      }
+    }, 800);
+  };
+  
   return (
     <footer className="bg-trustBlue text-white">
       <div className="container py-12">
@@ -43,13 +60,13 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-bold text-white mb-3">Legal</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/privacy" className="text-gray-300 hover:text-safetyGreen">Privacy Policy</Link>
+                <a href="#check-eligibility" onClick={handlePrivacyClick} className="text-gray-300 hover:text-safetyGreen">Privacy Policy</a>
               </li>
               <li>
-                <Link href="/terms" className="text-gray-300 hover:text-safetyGreen">Terms of Service</Link>
+                <a href="#check-eligibility" onClick={handlePrivacyClick} className="text-gray-300 hover:text-safetyGreen">Terms of Service</a>
               </li>
               <li>
-                <Link href="/disclaimer" className="text-gray-300 hover:text-safetyGreen">Legal Disclaimer</Link>
+                <a href="#check-eligibility" onClick={handlePrivacyClick} className="text-gray-300 hover:text-safetyGreen">Legal Disclaimer</a>
               </li>
             </ul>
           </div>
