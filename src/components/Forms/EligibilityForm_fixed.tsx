@@ -8,6 +8,12 @@ interface FormData {
   email: string;
   zipCode: string;
   phone: string;
+  diagnosis: string;
+  diagnosisYear: string;
+  exposureDuration: string;
+  isWrongfulDeath: string;
+  estateOpened: string;
+  deathWithinTwoYears: string;
 }
 
 interface FormErrors {
@@ -16,7 +22,16 @@ interface FormErrors {
   email?: string;
   zipCode?: string;
   phone?: string;
+  diagnosis?: string;
+  diagnosisYear?: string;
+  exposureDuration?: string;
+  isWrongfulDeath?: string;
+  estateOpened?: string;
+  deathWithinTwoYears?: string;
 }
+
+// List of excluded states
+const EXCLUDED_STATES = ['LA', 'KY', 'TN', 'PR'];
 
 // Updated API Gateway URL with console log
 const API_ENDPOINT = 'https://wtrq7vmbmj.execute-api.us-east-1.amazonaws.com/prod/submissions';
@@ -44,7 +59,13 @@ if (typeof window !== 'undefined') {
           lastName: 'User',
           email: 'test@example.com',
           zipCode: '12345',
-          phone: '555-555-5555'
+          phone: '555-555-5555',
+          diagnosis: 'Kidney Cancer',
+          diagnosisYear: '2010',
+          exposureDuration: 'Yes, 1+ year',
+          isWrongfulDeath: 'No',
+          estateOpened: '',
+          deathWithinTwoYears: ''
         })
       });
       console.log('API test response status:', response.status);
@@ -65,14 +86,21 @@ const EligibilityForm: React.FC = () => {
     email: '',
     zipCode: '',
     phone: '',
+    diagnosis: '',
+    diagnosisYear: '',
+    exposureDuration: '',
+    isWrongfulDeath: 'No',
+    estateOpened: '',
+    deathWithinTwoYears: ''
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [showWrongfulDeathQuestions, setShowWrongfulDeathQuestions] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
     // For zip code, only allow numbers and limit to 5 characters
@@ -97,6 +125,23 @@ const EligibilityForm: React.FC = () => {
       
       setFormData({ ...formData, [name]: formattedPhone });
       return;
+    }
+
+    // For wrongful death question, show/hide additional questions
+    if (name === 'isWrongfulDeath') {
+      const showAdditional = value === 'Yes';
+      setShowWrongfulDeathQuestions(showAdditional);
+      
+      // If switching to No, clear the dependent fields
+      if (!showAdditional) {
+        setFormData({
+          ...formData,
+          [name]: value,
+          estateOpened: '',
+          deathWithinTwoYears: ''
+        });
+        return;
+      }
     }
     
     // Default handler for other fields
@@ -141,6 +186,32 @@ const EligibilityForm: React.FC = () => {
         newErrors.phone = 'Please enter a valid 10-digit phone number';
       }
     }
+
+    // Validate diagnosis
+    if (!formData.diagnosis) {
+      newErrors.diagnosis = 'Please select a diagnosis';
+    }
+
+    // Validate diagnosis year
+    if (!formData.diagnosisYear) {
+      newErrors.diagnosisYear = 'Please select when you were diagnosed';
+    }
+
+    // Validate exposure duration
+    if (!formData.exposureDuration) {
+      newErrors.exposureDuration = 'Please select your exposure duration';
+    }
+
+    // Validate wrongful death fields if applicable
+    if (formData.isWrongfulDeath === 'Yes') {
+      if (!formData.estateOpened) {
+        newErrors.estateOpened = 'Please indicate if an estate has been opened';
+      }
+      
+      if (!formData.deathWithinTwoYears) {
+        newErrors.deathWithinTwoYears = 'Please indicate when the death occurred';
+      }
+    }
     
     console.log('Validation errors:', newErrors);
     setErrors(newErrors);
@@ -152,6 +223,22 @@ const EligibilityForm: React.FC = () => {
     console.log('Form submission started');
     console.log('Current form data:', formData);
     setSubmitError(null);
+    
+    // Check for excluded states (basic check using first two digits of zip)
+    // A more comprehensive check would use a zip code API to determine state
+    const isExcludedState = EXCLUDED_STATES.some(state => {
+      // This is just a basic check and should be replaced with proper zip code validation
+      if (state === 'LA' && formData.zipCode.startsWith('70')) return true;
+      if (state === 'KY' && formData.zipCode.startsWith('4')) return true;
+      if (state === 'TN' && formData.zipCode.startsWith('37')) return true;
+      if (state === 'PR' && formData.zipCode.startsWith('00')) return true;
+      return false;
+    });
+
+    if (isExcludedState) {
+      setSubmitError("We're sorry, but we are not currently accepting clients from Louisiana, Kentucky, Tennessee, or Puerto Rico.");
+      return;
+    }
     
     if (validateForm()) {
       console.log('Form validation passed');
@@ -203,6 +290,12 @@ const EligibilityForm: React.FC = () => {
           email: '',
           zipCode: '',
           phone: '',
+          diagnosis: '',
+          diagnosisYear: '',
+          exposureDuration: '',
+          isWrongfulDeath: 'No',
+          estateOpened: '',
+          deathWithinTwoYears: ''
         });
       } catch (error) {
         console.error('Error submitting form:', error);
@@ -337,6 +430,154 @@ const EligibilityForm: React.FC = () => {
           <p className="mt-1 text-sm text-warningRed">{errors.phone}</p>
         )}
       </div>
+
+      {/* Diagnosis Question */}
+      <div>
+        <label htmlFor="diagnosis" className="block text-sm font-medium text-gray-700 mb-1">
+          Have you been diagnosed with any of the following?
+        </label>
+        <select
+          id="diagnosis"
+          name="diagnosis"
+          value={formData.diagnosis}
+          onChange={handleChange}
+          className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
+            errors.diagnosis ? 'border-warningRed' : 'border-gray-300'
+          }`}
+        >
+          <option value="">Please select</option>
+          <option value="Kidney Cancer">Kidney Cancer</option>
+          <option value="Testicular Cancer">Testicular Cancer</option>
+          <option value="Other">Other</option>
+          <option value="None">No diagnosis</option>
+        </select>
+        {errors.diagnosis && (
+          <p className="mt-1 text-sm text-warningRed">{errors.diagnosis}</p>
+        )}
+      </div>
+
+      {/* Diagnosis Year */}
+      <div>
+        <label htmlFor="diagnosisYear" className="block text-sm font-medium text-gray-700 mb-1">
+          When were you diagnosed?
+        </label>
+        <select
+          id="diagnosisYear"
+          name="diagnosisYear"
+          value={formData.diagnosisYear}
+          onChange={handleChange}
+          className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
+            errors.diagnosisYear ? 'border-warningRed' : 'border-gray-300'
+          }`}
+        >
+          <option value="">Please select</option>
+          <option value="Before 2000">Before 2000</option>
+          <option value="2000-2010">2000-2010</option>
+          <option value="2011-2020">2011-2020</option>
+          <option value="2021 or later">2021 or later</option>
+          <option value="Not diagnosed">Not diagnosed</option>
+        </select>
+        {errors.diagnosisYear && (
+          <p className="mt-1 text-sm text-warningRed">{errors.diagnosisYear}</p>
+        )}
+      </div>
+
+      {/* Exposure Duration */}
+      <div>
+        <label htmlFor="exposureDuration" className="block text-sm font-medium text-gray-700 mb-1">
+          Did you drink from the same contaminated water supply for at least 6 consecutive months between 1990 and present?
+        </label>
+        <select
+          id="exposureDuration"
+          name="exposureDuration"
+          value={formData.exposureDuration}
+          onChange={handleChange}
+          className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
+            errors.exposureDuration ? 'border-warningRed' : 'border-gray-300'
+          }`}
+        >
+          <option value="">Please select</option>
+          <option value="Yes, 6+ months">Yes, at least 6 months</option>
+          <option value="Yes, 1+ year">Yes, 1 year or more</option>
+          <option value="Yes, 5+ years">Yes, 5 years or more</option>
+          <option value="No">No</option>
+          <option value="Unsure">Unsure</option>
+        </select>
+        {errors.exposureDuration && (
+          <p className="mt-1 text-sm text-warningRed">{errors.exposureDuration}</p>
+        )}
+      </div>
+
+      {/* Wrongful Death Question */}
+      <div>
+        <label htmlFor="isWrongfulDeath" className="block text-sm font-medium text-gray-700 mb-1">
+          Is this a wrongful death case?
+        </label>
+        <select
+          id="isWrongfulDeath"
+          name="isWrongfulDeath"
+          value={formData.isWrongfulDeath}
+          onChange={handleChange}
+          className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
+            errors.isWrongfulDeath ? 'border-warningRed' : 'border-gray-300'
+          }`}
+        >
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+        {errors.isWrongfulDeath && (
+          <p className="mt-1 text-sm text-warningRed">{errors.isWrongfulDeath}</p>
+        )}
+      </div>
+
+      {/* Conditional Wrongful Death Questions */}
+      {showWrongfulDeathQuestions && (
+        <>
+          <div>
+            <label htmlFor="estateOpened" className="block text-sm font-medium text-gray-700 mb-1">
+              Has an estate been opened?
+            </label>
+            <select
+              id="estateOpened"
+              name="estateOpened"
+              value={formData.estateOpened}
+              onChange={handleChange}
+              className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
+                errors.estateOpened ? 'border-warningRed' : 'border-gray-300'
+              }`}
+            >
+              <option value="">Please select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            {errors.estateOpened && (
+              <p className="mt-1 text-sm text-warningRed">{errors.estateOpened}</p>
+            )}
+          </div>
+          
+          <div>
+            <label htmlFor="deathWithinTwoYears" className="block text-sm font-medium text-gray-700 mb-1">
+              Did the death occur within the last 2 years?
+            </label>
+            <select
+              id="deathWithinTwoYears"
+              name="deathWithinTwoYears"
+              value={formData.deathWithinTwoYears}
+              onChange={handleChange}
+              className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-safetyGreen focus:border-safetyGreen ${
+                errors.deathWithinTwoYears ? 'border-warningRed' : 'border-gray-300'
+              }`}
+            >
+              <option value="">Please select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            {errors.deathWithinTwoYears && (
+              <p className="mt-1 text-sm text-warningRed">{errors.deathWithinTwoYears}</p>
+            )}
+          </div>
+        </>
+      )}
 
       {submitError && (
         <div className="p-3 bg-warningRed bg-opacity-10 text-warningRed rounded-lg">
