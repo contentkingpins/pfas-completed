@@ -280,6 +280,17 @@ const EligibilityForm: React.FC = () => {
         }
         
         console.log('Form submission successful:', result);
+        
+        // Track form submission lead event with Facebook Pixel
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+          (window as any).fbq('track', 'Lead', {
+            content_name: 'PFAS Claim Eligibility Form',
+            content_category: 'Form Submission',
+            zip_code: formData.zipCode,
+          });
+          console.log('Facebook Pixel Lead event triggered');
+        }
+        
         setIsSubmitting(false);
         setIsSubmitted(true);
         
